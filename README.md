@@ -1,177 +1,175 @@
-Healthy Food：基于 Multi-Agent 的食物图像识别与精准体重管理平台
-一个面向全场景减重与健康管理的智能体系统，以证据可追溯的食物识别与热量计算为核心，融合多模型协同与长期记忆机制。
+# Healthy Food: A Multi-Agent Based Food Image Recognition and Precision Weight Management Platform
 
-Healthy Food 是一个由 Multi-Agent 架构驱动的全链路体重管理平台，将 DeepSeek、豆包、Kimi 等多模型能力融入统一协作体系。平台通过食物图像识别、成分解析、健康评估、动态干预与长期管理，解决传统减重软件数据采集失真、方案模板化、特殊人群覆盖不足等核心问题。
+> A full-scenario weight loss and health management agent system centered on evidence-traceable food recognition and calorie calculation, integrating multi-model collaboration and long-term memory mechanisms.
 
-为什么不是普通的卡路里记录工具
-多模型协同识别：单一模型难以处理复杂中餐的视觉特征碎片化，Healthy Food 采用多智能体分工，并行完成食物种类识别、重量估算、营养计算与健康建议生成。
+Healthy Food is a full-chain weight management platform driven by a Multi-Agent architecture, integrating the capabilities of DeepSeek, Doubao, Kimi, and other models into a unified collaborative system. Through food image recognition, ingredient analysis, health assessment, dynamic intervention, and long-term management, the platform addresses core issues of traditional weight loss software, such as distorted data collection, templated solutions, and inadequate coverage of special populations.
 
-参照物三维重建：不依赖用户主观估算重量，系统通过餐具、手部等参照物推算容器体积，结合食材比例计算菜品重量，精度较传统“碗/勺”计量提升超 60%。
+## Why It's Not an Ordinary Calorie Tracking Tool
 
-动态交互纠错：用户可补充“少油”“加腐竹”等上下文，系统触发多智能体重新分析，实时修正热量与营养数据，形成“识别—评估—修正”闭环。
+- **Multi-Model Collaborative Recognition**: Single models struggle with the fragmented visual features of complex Chinese cuisine. Healthy Food employs multi-agent division of labor to concurrently perform food category recognition, weight estimation, nutritional calculation, and health recommendation generation.
+- **3D Reconstruction via Reference Objects**: Instead of relying on subjective user estimation of weight, the system calculates container volume using reference objects such as tableware and hands, combined with ingredient proportions to compute dish weight, achieving over 60% improvement in accuracy over traditional "bowl/spoon" measurements.
+- **Dynamic Interactive Error Correction**: Users can supplement contextual information such as "less oil" or "add fried bean curd," triggering the multi-agent system to re-analyze and correct calorie and nutrition data in real time, forming a "recognition–assessment–correction" feedback loop.
+- **Independent Modules for Special Populations**: Dedicated algorithms are developed for six special groups—allergy sufferers, diabetics, adolescents, the elderly, postpartum women, and individuals with extreme obesity—to avoid health risks associated with one-size-fits-all approaches.
+- **Emotional Companionship and Long-Term Management**: An integrated affective computing module detects emotional signals and provides psychological interventions; time-series forecasting predicts plateaus and relapse risks, driving the transition from short-term weight loss to lifelong health management.
 
-细分人群独立模块：针对过敏、糖尿病、青少年、老年、产妇、超大体重者六类特殊群体开发专用算法，避免通用方案带来的健康风险。
+## Currently Verifiable Capabilities
 
-心理陪伴与长期管理：集成情感计算模块，识别用户情绪信号并提供心理干预；基于时间序列预测平台期与反弹风险，推动从短期减重向终身健康管理转变。
+The following metrics are derived from internal testing and real-world scenario validation:
 
-当前可验证能力
-以下指标来源于内部测试与真实场景验证：
+| Capability | Metric |
+|------------|--------|
+| Chinese Cuisine Recognition | 79 categories, 92.3% accuracy on test set |
+| Ingredient Breakdown | Up to 12 ingredients recognized per image (confidence > 85%) |
+| Nutritional Database Coverage | 327 ingredients, 4-dimensional data (calories/protein/fat/carbs) |
+| Smart Suggestion Latency | < 1.8 seconds (Qwen version) |
+| Weight Estimation Accuracy Improvement | > 60% over traditional methods |
+| Calorie Calculation Error Reduction | 40% lower than traditional database matching |
+| Long-Text Generation Speed | 6,800-word market analysis in 116 seconds, structural completeness 91.4% |
 
-能力项	指标
-中华菜系识别	79 类，测试集准确率 92.3%
-食材成分分解	单图最大识别 12 种食材（置信度 > 85%）
-营养数据库覆盖	327 种食材，4 维度数据（热量/蛋白质/脂肪/碳水）
-智能建议延迟	< 1.8 秒（Qwen 版）
-重量估算精度提升	较传统方式提升超 60%
-热量计算误差率降低	较传统数据库匹配法降低 40%
-长文本生成速度	6800 字市场分析 116 秒，结构完整度 91.4%
-这些结果来自开发过程中的对比实验与用户测试，不代表大规模临床验证。完整实验细节与边界见后续“验证与边界”章节。
+These results are derived from comparative experiments and user testing during development and do not represent large-scale clinical validation. Full experimental details and limitations are provided in the "Validation and Boundaries" section.
 
-核心工作流
-text
-用户拍摄食物照片 / 文字描述
+## Core Workflow
+
+```
+User takes food photo / provides text description
         │
         ▼
-多模态特征提取（豆包 + Kimi 视觉，DeepSeek 语义）
+Multi-modal Feature Extraction (Doubao + Kimi Vision, DeepSeek Semantics)
         │
         ▼
-多智能体协同推理（识别 + 重量估算 + 营养计算）
+Multi-Agent Collaborative Reasoning (Recognition + Weight Estimation + Nutrition Calculation)
         │
         ▼
-交互验证（候选答案展示，用户确认或纠错）
+Interactive Validation (Display candidate answers, user confirms or corrects)
         │
         ▼
-动态健康方案生成（结合用户画像、长期记忆、环境数据）
+Dynamic Health Plan Generation (Integrates user profile, long-term memory, environmental data)
         │
         ▼
-持续跟踪与自适应调整（心理陪伴 + 平台期预测）
-技术架构
-智能体与模型矩阵
-平台基于扣子（Coze）平台构建 Multi-Agent 协作网络，核心模型包括：
+Continuous Tracking & Adaptive Adjustment (Emotional companionship + Plateau prediction)
+```
 
-角色	模型	职责
-核心调度	扣子基础模型	任务路由与流程控制
-复杂推理	DeepSeek-R1 / V3 0324 / Distill-Qwen-7B/32B	多步逻辑推演、热量公式推导、营养报告生成
-多模态视觉	豆包视觉理解-1.5-pro / Lite	食物图像识别、重量参照物分析、OCR 包装信息提取
-交互与生成	Kimi 大模型、豆包通用模型-pro	自然语言反馈、个性化建议生成、心理陪伴对话
-辅助智能体	通义千问-Max、智谱·4、minimax abab6.5s、阶跃星辰 1v-图片理解、百川-4	补充推理、图像理解、长上下文处理
-所有模型通过 API 网关统一调用，采用 JSON-RPC 协议，响应时间控制在 800ms 以内。
+## Technical Architecture
 
-插件体系
-插件类型	代表插件	作用
-信息检索	biyingsousuo-bingWebSearchLight / WebSearch	实时获取营养数据、天气、新闻
-链接解析	lianjieduqu-LinkReaderPlugin	抓取 PDF、DOCX、网页内容
-图像理解	tupianlijie-imgUnderstand	菜品识别 + 营养数据库比对，输出热量/过敏源/健康建议
-专业处理	img_cat-image_divider	识别图像中物体位置，辅助参照物定位
-AI 生成	ByteArtist – ImageToolPro、byteartist-text2image	文生图、图生图，支持多风格输出
-代码执行	daimazhixingqi-CodeRunner	临时沙盒执行 Python，处理数学计算
-天气服务	mojitianqi-DayWeather、OpenWeather、WeatherQueryPlugin	获取天气与环境数据，用于动态方案调整
-思维导图	TreeMindshutu-generateTreeMind	将文本转化为结构化脑图
-长期记忆技术
-采用结构化数据库与知识图谱双轨模式：
+### Agent and Model Matrix
 
-结构化存储：用户饮食记录、健康指标（血糖、血压等）标准化存储，支持高效查询。
+The platform builds a Multi-Agent collaboration network based on the Coze platform, with core models including:
 
-知识图谱关联：将食物营养成分、热量数据与用户偏好可视化关联，挖掘潜在健康风险与改进点。
+| Role | Model | Responsibility |
+|------|-------|----------------|
+| Core Orchestration | Coze Base Model | Task routing and process control |
+| Complex Reasoning | DeepSeek-R1 / V3 0324 / Distill-Qwen-7B/32B | Multi-step logical deduction, calorie formula derivation, nutrition report generation |
+| Multi-modal Vision | Doubao Vision Understanding-1.5-pro / Lite | Food image recognition, weight reference analysis, OCR for packaging information extraction |
+| Interaction & Generation | Kimi Large Model, Doubao General-pro | Natural language feedback, personalized recommendations, emotional companionship dialogue |
+| Auxiliary Agents | Tongyi Qianwen-Max, Zhipu·4, Minimax abab6.5s, Stepfun 1v-Image Understanding, Baichuan-4 | Supplementary reasoning, image understanding, long-context processing |
 
-动态更新：基于用户反馈与新数据，智能体自动迭代算法参数，更新识别模型与热量计算参数。
+All models are invoked via a unified API gateway using the JSON-RPC protocol, with response times controlled within 800ms.
 
-工作流管道
-系统基于四阶段工具流实现从图像输入到健康建议的全流程自动化：
+### Plugin Ecosystem
 
-特征提取：并行调用豆包与 Kimi 视觉特征提取（ResNet50 基础），结合 DeepSeek 语义分析，生成多模态特征向量。
+| Plugin Type | Representative Plugins | Function |
+|-------------|------------------------|----------|
+| Information Retrieval | biyingsousuo-bingWebSearchLight / WebSearch | Real-time access to nutritional data, weather, news |
+| Link Parsing | lianjieduqu-LinkReaderPlugin | Extract content from PDF, DOCX, web pages |
+| Image Understanding | tupianlijie-imgUnderstand | Dish recognition + nutritional database comparison, output calories/allergens/health advice |
+| Specialized Processing | img_cat-image_divider | Identify object positions in images, assist reference object localization |
+| AI Generation | ByteArtist – ImageToolPro, byteartist-text2image | Text-to-image, image-to-image, multi-style output |
+| Code Execution | daimazhixingqi-CodeRunner | Temporary sandbox Python execution, mathematical computation |
+| Weather Services | mojitianqi-DayWeather, OpenWeather, WeatherQueryPlugin | Weather and environmental data for dynamic plan adjustment |
+| Mind Mapping | TreeMindshutu-generateTreeMind | Convert text to structured mind maps |
 
-协同推理：动态分配主推理智能体（复杂菜品由 DeepSeek 主导），融合知识图谱证据，输出候选识别结果。
+### Long-Term Memory Technology
 
-交互验证：通过交互智能体向用户展示候选答案（如“可能是：①红烧肉 ②梅菜扣肉”），基于用户反馈触发纠错。
+Adopts a dual-track approach combining structured databases and knowledge graphs:
 
-行动输出：根据最终结果联动健康管理、餐饮推荐、运动计划等外部接口，形成服务闭环。
+- **Structured Storage**: User dietary records and health metrics (blood glucose, blood pressure, etc.) are stored in standardized format for efficient querying.
+- **Knowledge Graph Association**: Visualizes associations between food nutrition, calorie data, and user preferences to uncover potential health risks and improvement opportunities.
+- **Dynamic Updates**: Based on user feedback and new data, agents automatically iterate algorithmic parameters, updating recognition models and calorie calculation parameters.
 
-核心功能模块
-1. 食物图像精准识别
-细粒度成分解析：像素级解析食物类别、食材组成及配比，支持整桌多菜品同时识别。
+### Workflow Pipeline
 
-三维重建重量估算：利用餐具、手部等参照物推算容器体积，结合食材密度计算重量，支持分数计量（如 1/3 碗）。
+The system implements a four-stage tool flow for full automation from image input to health recommendations:
 
-知识图谱热量精算：整合食材属性、烹饪工艺、营养成分等关联数据，动态计算热量与营养，误差率较传统方法降低 40%。
+1. **Feature Extraction**: Concurrently invokes Doubao and Kimi for visual feature extraction (ResNet50-based), combined with DeepSeek semantic analysis, generating multi-modal feature vectors.
+2. **Collaborative Reasoning**: Dynamically assigns the primary reasoning agent (DeepSeek leading for complex dishes), integrating knowledge graph evidence to output candidate recognition results.
+3. **Interactive Validation**: Presents candidate answers to users via the interaction agent (e.g., "Could be: ① Braised Pork ② Meicai Kou Rou"), triggering correction based on user feedback.
+4. **Action Output**: Based on final results, integrates with external interfaces for health management, meal recommendations, exercise planning, forming a service closed loop.
 
-2. 深度个性化动态健康方案
-用户画像构建：跨模态融合饮食图像、体检报告、运动数据，建立完整健康画像。
+## Core Functional Modules
 
-多维度分析：考虑 BMI、代谢率、过敏源、特殊体质、口味偏好、睡眠质量、情绪状态、天气环境等 20+ 因素。
+### 1. Precision Food Image Recognition
 
-动态调整：基于时间序列分析预测平台期与反弹风险，自动调整饮食与运动方案。例如，连续 3 天未完成运动目标时，AI 自动降低强度并推荐“轻断食”食谱；雾霾天自动切换室内运动。
+- **Fine-Grained Ingredient Analysis**: Pixel-level analysis of food categories, ingredient composition, and proportions; supports simultaneous recognition of multiple dishes on a table.
+- **3D Reconstruction for Weight Estimation**: Uses reference objects such as tableware and hands to calculate container volume, combined with ingredient density to compute weight; supports fractional measurements (e.g., 1/3 bowl).
+- **Knowledge Graph Calorie Precision**: Integrates ingredient properties, cooking techniques, nutritional components, and other associated data to dynamically calculate calories and nutrition, reducing error rates by 40% compared to traditional methods.
 
-反馈闭环：收集用户对计划的评价，持续调整算法参数。
+### 2. Deeply Personalized Dynamic Health Plans
 
-3. 六类特殊人群独立算法模块
-人群	核心痛点	Healthy Food 方案
-过敏体质	隐形过敏原识别困难	构建“个人过敏原-环境监测-替代营养”三重防护网，结合花粉浓度预警
-糖尿病患者	血糖与体重精密平衡	个性化“血糖-碳水-运动”联动模型，高糖食品触发弥补性建议
-超大体重者	关节保护与渐进减重	低冲击运动 + 肌关节保护方案，阶梯式减重目标
-老年肥胖者	代谢衰退与共病管理	动态下调热量目标（每 10 岁减少 5%），防跌倒运动推荐
-青少年	生长发育不可逆影响	设置最低热量阈值，禁用身材焦虑功能，关注心理健康
-产后女性	哺乳与代谢双挑战	根据哺乳量动态调整热量缺口，推荐舒缓运动与心理辅导
-4. 智能心理陪伴系统
-情感计算模块：集成语义分析、语气识别及情绪特征提取，捕捉消极言语、焦虑语气等信号。
+- **User Profile Construction**: Cross-modal fusion of dietary images, medical reports, and exercise data to build a comprehensive health profile.
+- **Multi-Dimensional Analysis**: Considers 20+ factors including BMI, metabolic rate, allergens, special conditions, taste preferences, sleep quality, emotional state, and weather conditions.
+- **Dynamic Adjustment**: Time-series analysis predicts plateaus and relapse risks, automatically adjusting diet and exercise plans. For example, if exercise goals are missed for 3 consecutive days, AI reduces intensity and recommends a "light fasting" diet; on smoggy days, automatically switches to indoor exercises.
+- **Feedback Loop**: Collects user evaluations of plans, continuously adjusting algorithmic parameters.
 
-即时干预：提供个性化心理支持与鼓励，防止半途而废。
+### 3. Independent Algorithm Modules for Six Special Populations
 
-情感化交互：从“技术工具型”升级为“身心陪伴型”，增强用户粘性与长期依从性。
+| Population | Core Challenge | Healthy Food Solution |
+|------------|----------------|----------------------|
+| Allergy Sufferers | Difficulty identifying hidden allergens | Builds a triple protection network of "personal allergens–environmental monitoring–alternative nutrition," integrating pollen count warnings |
+| Diabetics | Precise balance between blood glucose and weight | Personalized "blood glucose–carbs–exercise" linkage model; high-sugar foods trigger compensatory recommendations |
+| Extreme Obesity | Joint protection and gradual weight loss | Low-impact exercise + joint protection protocols, stepwise weight loss targets |
+| Elderly with Obesity | Metabolic decline and comorbidity management | Dynamically lowers calorie targets (5% reduction per decade), fall-prevention exercise recommendations |
+| Adolescents | Irreversible impact on growth and development | Sets minimum calorie thresholds; disables body image anxiety features; focuses on mental health |
+| Postpartum Women | Dual challenges of lactation and metabolism | Dynamically adjusts caloric deficit based on milk production; recommends soothing exercises and psychological counseling |
 
-5. 全链路资源整合中枢
-打破信息孤岛，构建“饮食 - 运动 - 健康”三位一体生态：
+### 4. Intelligent Psychological Companionship System
 
-实时同步权威膳食指南、个性化运动教程。
+- **Affective Computing Module**: Integrates semantic analysis, tone recognition, and emotional feature extraction to detect negative language, anxious tones, and other signals.
+- **Immediate Intervention**: Provides personalized psychological support and encouragement to prevent dropout.
+- **Emotionally Engaging Interaction**: Elevates from "technical tool" to "holistic companion," enhancing user retention and long-term adherence.
 
-自动解析用户饮食图像、运动数据，将复杂健康知识转化为可视化建议。
+### 5. Full-Chain Resource Integration Hub
 
-支持自然语言检索饮食记录（如“查找上周高蛋白餐食”）。
+Breaks down information silos to build a "Diet–Exercise–Health" trinity ecosystem:
 
-6. 全周期健康管理与习惯养成
-终身健康数据档案：深度挖掘体重、体脂率、饮食摄入等多维度数据关联性。
+- Real-time synchronization of authoritative dietary guidelines and personalized exercise tutorials.
+- Automatically parses user dietary images and exercise data, transforming complex health knowledge into visual recommendations.
+- Supports natural language retrieval of dietary records (e.g., "Find high-protein meals from last week").
 
-趋势预测：基于历史数据预测健康风险，定制阶梯式减重方案。
+### 6. Full-Cycle Health Management and Habit Formation
 
-正向激励：每日/周/月/季推送健康报表，形成“习惯养成 - 正向激励 - 持续优化”闭环。
+- **Lifelong Health Data Archive**: Deeply mines correlations among weight, body fat percentage, dietary intake, and other multi-dimensional data.
+- **Trend Prediction**: Predicts health risks based on historical data; customizes stepwise weight loss plans.
+- **Positive Reinforcement**: Daily/weekly/monthly/quarterly health reports, forming a "habit formation–positive reinforcement–continuous optimization" closed loop.
 
-安全与隐私设计
-用户健康数据采用 AES-256 加密存储。
+## Security and Privacy Design
 
-所有插件调用通过 mcp-call_tool 网关鉴权，遵循 GDPR 隐私保护标准。
+- User health data encrypted with AES-256.
+- All plugin calls are authenticated via the mcp-call_tool gateway, adhering to GDPR privacy protection standards.
+- All operations involving user files are logged with audit trails.
+- Model outputs undergo HTML escaping to prevent injection attacks.
+- Sensitive data (e.g., allergens, disease information) is used exclusively for personalized computation and is not shared with third parties.
 
-涉及用户文件的操作均记录审计日志。
+## Validation and Boundaries
 
-模型输出经 HTML 转义，防止注入攻击。
+### Completed Validation
 
-敏感数据（如过敏原、疾病信息）仅用于个性化计算，不用于第三方共享。
+- **Comparative Experiments**: For identical prepared food images, weight estimates from different large models and apps varied by nearly a factor of two, with calorie values differing by up to 3.4×; Healthy Food significantly reduced errors through interactive correction and reference-object methods.
+- **Real-World Scenario Testing**: Correctly recognized an entire table of Chinese dishes (four items) in a single pass and automatically recommended sleep-aiding beverages based on the user's historical insomnia records.
+- **Internal Benchmarks**: 92.3% accuracy on 79-category Chinese cuisine recognition; up to 12 ingredients recognized per image with confidence >85%.
 
-验证与边界
-已完成的验证
-对比实验：同一成品食物图片，不同大模型与 APP 的重量识别相差近一倍，热量值相差 3.4 倍；Healthy Food 通过交互纠错与参照物法显著缩小误差。
+### Current Boundaries
 
-真实场景测试：识别整桌中餐（四个菜）一次正确，并根据用户历史失眠记录自动推荐助眠饮品。
+- Real-time video stream recognition is not yet supported.
+- Special population modules require further validation with real-world clinical data.
+- Long-term efficacy of the psychological companionship system has not been tested via randomized controlled trials.
+- Relies on third-party large model APIs; service stability is subject to vendor availability.
+- Not yet open-sourced; core algorithmic details are not fully disclosed.
 
-内部基准：79 类中华菜系识别准确率 92.3%，单图识别 12 种食材置信度 > 85%。
+## Quick Access
 
-当前边界
-暂不支持视频流实时识别。
+Healthy Food offers multiple access paths:
 
-特殊人群模块需更多真实临床数据验证。
-
-心理陪伴系统的长期效果尚未经过随机对照试验。
-
-依赖第三方大模型 API，服务稳定性受供应商影响。
-
-暂未开源，核心算法细节未完全公开。
-
-快速体验
-Healthy Food 提供多条访问路径：
-
-Web 应用：https://websim.ai/p/x021220jsowb1735q_1u/12
-
-扣子智能体：https://www.coze.cn/store/agent/7479232738571108388?bot_id=true
-
-混元：https://yuanqi.tencent.com/webim/#/chat/gknyQu?appid=2092115911376038976
-
-微信公众号路径调试中
+- Web App: `https://websim.ai/p/x021220jsowb1735q_1u/12`
+- Coze Agent: `https://www.coze.cn/store/agent/7479232738571108388?bot_id=true`
+- Tencent Yuanqi: `https://yuanqi.tencent.com/webim/#/chat/gknyQu?appid=2092115911376038976`
+- WeChat Official Account path is currently in debugging.
